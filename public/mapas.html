@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubicación de Parqueaderos con Waze</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            margin: auto;
+        }
+        h1 {
+            color: #0055a4;
+        }
+        iframe {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            text-decoration: none;
+            background-color: #0055a4;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #003f7f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Ubicación del Parqueadero</h1>
+        <p>Visualiza y navega al parqueadero en tiempo real con Waze.</p>
+
+        <!-- Mapa de Waze embebido -->
+        <iframe src="https://embed.waze.com/iframe?zoom=16&lat=6.244203&lon=-75.581211" allowfullscreen></iframe>
+
+        <!-- Botón para abrir en la app de Waze -->
+        <a href="https://waze.com/ul?ll=6.244203,-75.581211&navigate=yes" target="_blank" class="btn">
+            Abrir en Waze
+        </a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Parqueaderos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f8f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: border-color 0.3s ease;
+            width: calc(100% - 22px);
+        }
+
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .parqueadero {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Búsqueda de Parqueaderos</h1>
+        <p>Ingrese una ubicación para encontrar parqueaderos cercanos.</p>
+
+        <input type="text" id="busqueda" placeholder="Ejemplo: Centro, Norte, Sur">
+        <button onclick="buscarParqueadero()">Buscar</button>
+
+        <div id="resultados"></div>
+    </div>
+
+    <script>
+        const parqueaderos = [
+            { ubicacion: "Centro", precio: "$5/h", direccion: "Calle 10 #45-20" },
+            { ubicacion: "Norte", precio: "$6/h", direccion: "Avenida 15 #23-45" },
+            { ubicacion: "Sur", precio: "$4/h", direccion: "Carrera 50 #12-30" }
+        ];
+        
+        function buscarParqueadero() {
+            let input = document.getElementById("busqueda").value.toLowerCase();
+            let resultados = document.getElementById("resultados");
+            resultados.innerHTML = "";
+            
+            let filtrados = parqueaderos.filter(p => p.ubicacion.toLowerCase().includes(input));
+            
+            if (filtrados.length > 0) {
+                filtrados.forEach(p => {
+                    let div = document.createElement("div");
+                    div.classList.add("parqueadero");
+                    div.innerHTML = `<strong>Ubicación:</strong> ${p.ubicacion}<br>
+                                     <strong>Precio:</strong> ${p.precio}<br>
+                                     <strong>Dirección:</strong> ${p.direccion}`;
+                    resultados.appendChild(div);
+                });
+            } else {
+                resultados.innerHTML = "<p>No se encontraron parqueaderos</p>";
+            }
+        }
+    </script>
+</body>
+
+</html>

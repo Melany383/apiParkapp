@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información de Parqueaderos</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f8f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            color: #333;
+        }
+
+        /* Contenedor principal */
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            text-align: center;
+        }
+
+        /* Título */
+        h1 {
+            font-size: 26px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        /* Descripción */
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo para el formulario */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #4CAF50;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        /* Estilos de los elementos de la información */
+        .info {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .photo-gallery {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .photo-gallery img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .ratings {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Botón de mostrar detalles */
+        button {
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Información de Parqueaderos</h1>
+        <p>Selecciona un parqueadero para ver sus detalles.</p>
+
+        <!-- Formulario para seleccionar parqueadero -->
+        <form id="parkingForm">
+            <label for="parkingSelect">Selecciona un Parqueadero:</label>
+            <select id="parkingSelect" name="parkingSelect" required>
+                <option value="1">Parqueadero Central</option>
+                <option value="2">Parqueadero Sur</option>
+                <option value="3">Parqueadero Norte</option>
+            </select>
+
+            <button type="submit">Mostrar Información</button>
+        </form>
+
+        <!-- Información detallada del parqueadero -->
+        <div id="parkingDetails" style="display: none;">
+            <h2 id="parkingName"></h2>
+            <p id="parkingLocation"></p>
+            <p><strong>Tarifas:</strong> <span id="parkingRates"></span></p>
+            <p><strong>Horarios:</strong> <span id="parkingHours"></span></p>
+            <p><strong>Servicios:</strong> <span id="parkingServices"></span></p>
+
+            <!-- Galería de fotos -->
+            <div class="photo-gallery" id="photoGallery"></div>
+
+            <!-- Valoraciones -->
+            <div class="ratings" id="ratings"></div>
+        </div>
+    </div>
+
+    <script>
+        // Datos simulados sobre los parqueaderos
+        const parkingData = {
+            1: {
+                name: "Parqueadero Central",
+                location: "Calle 123, Zona Central",
+                rates: "$10 por hora",
+                hours: "Lunes a Domingo, 7:00 AM - 10:00 PM",
+                services: "Vigilancia 24 horas, Carga de vehículos eléctricos, Wi-Fi gratuito",
+                photos: [
+                    "https://via.placeholder.com/150x100?text=Foto+1",
+                    "https://via.placeholder.com/150x100?text=Foto+2",
+                    "https://via.placeholder.com/150x100?text=Foto+3"
+                ],
+                ratings: "4.5/5 (200 valoraciones)"
+            },
+            2: {
+                name: "Parqueadero Sur",
+                location: "Avenida 45, Zona Sur",
+                rates: "$8 por hora",
+                hours: "Lunes a Sábado, 6:00 AM - 8:00 PM",
+                services: "Vigilancia 24 horas, Carga de vehículos eléctricos",
+                photos: [
+                    "https://via.placeholder.com/150x100?text=Foto+1",
+                    "https://via.placeholder.com/150x100?text=Foto+2"
+                ],
+                ratings: "4.0/5 (150 valoraciones)"
+            },
+            3: {
+                name: "Parqueadero Norte",
+                location: "Calle 789, Zona Norte",
+                rates: "$12 por hora",
+                hours: "Lunes a Domingo, 24 horas",
+                services: "Vigilancia 24 horas, Wi-Fi gratuito",
+                photos: [
+                    "https://via.placeholder.com/150x100?text=Foto+1",
+                    "https://via.placeholder.com/150x100?text=Foto+2",
+                    "https://via.placeholder.com/150x100?text=Foto+3"
+                ],
+                ratings: "4.7/5 (250 valoraciones)"
+            }
+        };
+
+        // Mostrar la información del parqueadero seleccionado
+        document.getElementById('parkingForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const parkingId = document.getElementById('parkingSelect').value;
+            const parkingInfo = parkingData[parkingId];
+
+            // Mostrar detalles
+            document.getElementById('parkingName').textContent = parkingInfo.name;
+            document.getElementById('parkingLocation').textContent = `Ubicación: ${parkingInfo.location}`;
+            document.getElementById('parkingRates').textContent = parkingInfo.rates;
+            document.getElementById('parkingHours').textContent = parkingInfo.hours;
+            document.getElementById('parkingServices').textContent = parkingInfo.services;
+            document.getElementById('ratings').textContent = `Valoración: ${parkingInfo.ratings}`;
+
+            // Mostrar fotos
+            const photoGallery = document.getElementById('photoGallery');
+            photoGallery.innerHTML = '';  // Limpiar galería
+            parkingInfo.photos.forEach(photo => {
+                const img = document.createElement('img');
+                img.src = photo;
+                photoGallery.appendChild(img);
+            });
+
+            // Mostrar la sección de detalles
+            document.getElementById('parkingDetails').style.display = 'block';
+        });
+    </script>
+
+</body>
+
+</html>
